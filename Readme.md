@@ -11,8 +11,18 @@ pip install markdown
 ```bash
 pip install django-filter
 ```
+```bash
+pip install python-dotenv
+```
 
-## Agregar la libretia a INSTALLED_APPS en settings
+
+## Agregar la libreria a INSTALLED_APPS en settings
 ```bash
 'rest_framework',
+```
+
+## Importar la libreria de Dotenv en settings
+```bash
+from dotenv import load_dotenv
+import os
 ```

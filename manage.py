@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+from imp import load_package
 import os
 import sys
+
 
 
 def main():
