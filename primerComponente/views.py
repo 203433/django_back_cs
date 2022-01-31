@@ -5,6 +5,7 @@ from primerComponente import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+import json
 
 
 # importaciones de modelos agregados
@@ -13,13 +14,30 @@ from primerComponente.models import PrimerTabla
 # importaciones de serializadores
 from primerComponente.serializers import PrimerTablaSerializer
 
-# Create your views here.
+# Create your views here
+
+responseOk =  '{ "messages":"success", "pay_load": "serializer.data", "status" : "status"}'
+
+responseOk = json.loads(responseOk)
+
+'{ "messages":"success", "pay_load": "serializer.data", "status" : "status"}'
+
+
+
+
 class PrimerTablaList(APIView):
+    def jsonMaker(self, message, data, status):
+        json1 = {"message":message, "pay_load":data, "status":status }
+        dumper=json.dumps(json1)
+        responseOk = json.loads(dumper)
+        return responseOk
+
+
     def get(self, request, format=None):
         queryset = PrimerTabla.objects.all()
         serializer = PrimerTablaSerializer(queryset, many = True, context = {'request':request})
-        return Response(serializer.data) 
-        return Response(serializer.data)
+        responseOk = self.jsonMaker("succes", serializer.data, status.HTTP_200_OK)
+        return Response(responseOk)
 
     def post(self, request, format=None):
         serializer = PrimerTablaSerializer(data = request.data)
@@ -60,3 +78,5 @@ class PrimerTablaDetail(APIView):
             return Response("Dato eliminado" ,status=status.HTTP_200_OK)
         else:
             return Response("Dato no encontrado",status=status.HTTP_400_BAD_REQUEST)
+
+
