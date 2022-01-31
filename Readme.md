@@ -14,7 +14,12 @@ pip install django-filter
 ```bash
 pip install python-dotenv
 ```
-
+```bash
+pip install drf-extra-fields
+```
+```bash
+pip install pillow
+```
 
 ## Agregar la libreria a INSTALLED_APPS en settings
 ```bash
