@@ -8,6 +8,7 @@ from primerComponente import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import exceptions
 
 
 # importaciones de modelos agregados
@@ -23,11 +24,41 @@ class SegundaTablaJson(APIView):
         serializer = SegundaTablaSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
+            archivo = validated_data['imagen']
+            archivo.name = 'imagen.png'
+            validated_data['imagen'] = archivo
             # Convertir y guardar el modelo
-            editorial = SegundaTabla(**validated_data)
-            editorial.save()
+            datos = SegundaTabla(**validated_data)
+            datos.save()
 
-            serializer_response = SegundaTablaSerializer(editorial)
+            serializer_response = SegundaTablaSerializer(datos)
 
             return Response(serializer_response.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
+
+# Enviado por medio de HTML Form
+class SegundaTablaMuliParser(APIView):
+    #parser_classes = (FormParser, MultiPartParser,)
+
+    def post(self, request):
+        if 'imagen' not in request.data:
+            raise exceptions.ParseError(
+                "No has seleccionado el archivo a subir")
+
+        archivos = str(request.FILES)
+
+        #archivos = str(request.FILES.getlist('imagen'))
+
+        # return Response({'data':str(request.data),'file':archivos},status=status.HTTP_201_CREATED)
+        serializer = SegundaTablaSerializer(data=request.data)
+
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            # Convertir y guardar el modelo
+            datos = SegundaTabla(**validated_data)
+            datos.save()
+
+            serializer_response = SegundaTablaSerializer(datos)
+
+            return Response(serializer_response.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
