@@ -29,7 +29,6 @@ class TablaArchivosTabla(APIView):
             validated_data = serializer.validated_data
             # Convertir y guardar el modelo
             img = TablaArchivos(**validated_data)
-            img.url_img =  '127.0.0.1:8000/assets/img/' + str(img.url_img)
             img.save()
             serializer_response = TablaArchivosSerializer(img)
             return Response(serializer_response.data, status=status.HTTP_201_CREATED)
@@ -62,6 +61,7 @@ class TablaArchivosMultiParser(APIView):
 
     def delete(self, request, pk):
         imagen = self.get_object(pk)
+        
         if imagen != 0:
             imagen.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
