@@ -24,12 +24,12 @@ class TablaArchivosTabla(APIView):
         request.data['name_img'] = name
         request.data['format_img'] = formato
         serializer = TablaArchivosSerializer(data=request.data)
-        # return Response({'data': str(request.data)})    
+        # return Response({'data': str(request.data)})
         if serializer.is_valid():
             validated_data = serializer.validated_data
             # Convertir y guardar el modelo
             img = TablaArchivos(**validated_data)
-            img.url_img =  '127.0.0.1:8000/' + str(img.url_img)
+            img.url_img =  '127.0.0.1:8000/assets/img/' + str(img.url_img)
             img.save()
             serializer_response = TablaArchivosSerializer(img)
             return Response(serializer_response.data, status=status.HTTP_201_CREATED)
