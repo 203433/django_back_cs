@@ -6,4 +6,4 @@ from LoadImage.models  import TablaArchivos
 class TablaArchivosSerializer(serializers.ModelSerializer):
     class Meta:
         model = TablaArchivos
-        fields = ('pk','name_img','format_img', 'url_img')
+        fields = ('pk','name_img','format_img', 'url_img', 'edited')
