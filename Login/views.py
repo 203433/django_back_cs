@@ -1,3 +1,6 @@
+from .serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
 from multiprocessing import context
 from django.http import response
 from django.shortcuts import render
@@ -20,3 +23,7 @@ class LoginAuth(ObtainAuthToken):
             'user_id':user.pk,
             'email':user.email
         }) 
+    
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
