@@ -1,3 +1,4 @@
+from distutils.command.build_scripts import first_line_re
 from .serializers import MyTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
@@ -21,7 +22,10 @@ class LoginAuth(ObtainAuthToken):
         return Response({
             'token':token.key,
             'user_id':user.pk,
-            'email':user.email
+            'email':user.email,
+            'first_name':user.first_name,
+            'last_name':user.last_name,
+            
         }) 
     
 class MyObtainTokenPairView(TokenObtainPairView):
