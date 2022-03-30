@@ -38,20 +38,12 @@ class SegundaTablaJson(APIView):
 
 # Enviado por medio de HTML Form
 class SegundaTablaMuliParser(APIView):
-    #parser_classes = (FormParser, MultiPartParser,)
 
     def post(self, request):
         if 'imagen' not in request.data:
             raise exceptions.ParseError(
                 "No has seleccionado el archivo a subir")
-
-        archivos = str(request.FILES)
-
-        #archivos = str(request.FILES.getlist('imagen'))
-
-        # return Response({'data':str(request.data),'file':archivos},status=status.HTTP_201_CREATED)
         serializer = SegundaTablaSerializer(data=request.data)
-
         if serializer.is_valid():
             validated_data = serializer.validated_data
             # Convertir y guardar el modelo

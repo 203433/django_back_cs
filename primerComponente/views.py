@@ -29,15 +29,15 @@ class PrimerTablaList(APIView):
     def jsonMaker(self, message, data, status):
         json1 = {"message":message, "pay_load":data, "status":status }
         dumper=json.dumps(json1)
-        responseOk = json.loads(dumper)
-        return responseOk
+        response_ok = json.loads(dumper)
+        return response_ok
 
 
     def get(self, request, format=None):
         queryset = PrimerTabla.objects.all()
         serializer = PrimerTablaSerializer(queryset, many = True, context = {'request':request})
-        responseOk = self.jsonMaker("succes", serializer.data, status.HTTP_200_OK)
-        return Response(responseOk)
+        response_ok = self.jsonMaker("succes", serializer.data, status.HTTP_200_OK)
+        return Response(response_ok)
 
     def post(self, request, format=None):
         serializer = PrimerTablaSerializer(data = request.data)
@@ -55,15 +55,15 @@ class PrimerTablaDetail(APIView):
             return 0
 
     def get(self, request,pk, format=None):
-        idResponse = self.get_object(pk)
-        if idResponse != 0:
-            idResponse = PrimerTablaSerializer(idResponse)
-            return Response(idResponse.data, status = status.HTTP_200_OK)
+        id_response = self.get_object(pk)
+        if id_response != 0:
+            id_response = PrimerTablaSerializer(id_response)
+            return Response(id_response.data, status = status.HTTP_200_OK)
         return Response("No hay datos", status = status.HTTP_400_BAD_REQUEST)
 
     def put(self, request,pk, format=None):
-        idResponse = self.get_object(pk)
-        serializer = PrimerTablaSerializer(idResponse, data = request.data)
+        id_response = self.get_object(pk)
+        serializer = PrimerTablaSerializer(id_response, data = request.data)
         if serializer.is_valid():
             serializer.save()
             datas = serializer.data
